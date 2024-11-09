@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Education Inequality Visualizations</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/topojson@3"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #333;
+            margin-top: 20px;
+            font-size: 2em;
+        }
+
+        h2 {
+            color: #444;
+            margin-top: 30px;
+        }
+
+        #choropleth-map, #scatterplot, #grouped-bar-chart {
+            margin: 20px;
+            padding: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        svg {
+            background-color: #f0f0f0;
+        }
+
+        .legend rect {
+            width: 18px;
+            height: 18px;
+        }
+
+        .legend text {
+            font-size: 0.9em;
+            text-anchor: start;
+        }
+    </style>
+</head>
+<body>
+    <h1>Education Inequality Visualizations</h1>
+    
+    <h2>Choropleth Map: Global Literacy Rates</h2>
+    <div id="choropleth-map"></div>
+
+    <h2>Scatterplot: Education Spending vs. Literacy Rates</h2>
+    <div id="scatterplot"></div>
+
+    <h2>Grouped Bar Chart: Gender-Based Enrollment Rates</h2>
+    <div id="grouped-bar-chart"></div>
+
+    <script src="visualizations.js"></script>
+</body>
+</html>
