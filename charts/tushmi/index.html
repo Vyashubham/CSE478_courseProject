@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internet Access Trends by Income Group</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        .tooltip {
+            position: absolute;
+            background-color: white;
+            border: 1px solid #ccc;
+            padding: 5px;
+            font-size: 12px;
+            pointer-events: none;
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Internet Access Trends by Income Group (2021–2024)</h1>
+    <div id="chart-container" style="position: relative;">
+        <svg width="1200" height="700"></svg> <!-- Increased SVG height -->
+        <div class="tooltip"></div>
+    </div>
+
+    <script>
+        const width = 1200;
+        const height = 700; // Increased height for rotated labels
+        const margin = { top: 50, right: 50, bottom: 200, left: 90 }; // Further increased bottom margin
+
+        const svg = d3.select("svg");
+        const tooltip = d3.select(".tooltip");
+
+        // Load data
+        d3.csv("../../data/Urban_Rural_Internet_Trends_2021_2024.csv").then(data => {
+            // Define years and categories
+            const years = ["2021", "2022", "2023", "2024"];
+            const categories = ["Urban", "Rural"];
+            const groups = data.map(d => d.Region);
+
+            // Flatten the data correctly
+            const flatData = [];
+            data.forEach(d => {
+                years.forEach(year => {
+                    categories.forEach(category => {
+                        const columnName = `${year}_${category}`;
+                        const value = +d[columnName] || 0; // Ensure correct column name
+                        flatData.push({
+                            Region: d.Region,
+                            Year: year,
+                            Access: value,
+                            Category: category
+                        });
+                    });
+                });
+            });
+
+            // Create scales
+            const x0 = d3.scaleBand()
+                .domain(groups)
+                .range([margin.left, width - margin.right])
+                .padding(0.2);
+
+            const x1 = d3.scaleBand()
+                .domain(years)
+                .range([0, x0.bandwidth()])
+                .padding(0.05);
+
+            const y = d3.scaleLinear()
+                .domain([0, 100])
+                .nice()
+                .range([height - margin.bottom, margin.top]);
+
+            const color = d3.scaleOrdinal()
+                .domain(categories)
+                .range(["#1f77b4", "#ff7f0e"]); // Blue for Urban, Orange for Rural
+
+            // Add axes
+            svg.append("g")
+                .attr("transform", `translate(0,${height - margin.bottom})`)
+                .call(d3.axisBottom(x0))
+                .selectAll("text")
+                .attr("transform", "rotate(-45)") // Rotate labels at 45 degrees
+                .attr("dx", "-1em") // Adjust horizontal alignment
+                .attr("dy", "1.5em") // Adjust vertical alignment
+                .style("text-anchor", "end")
+                .style("font-size", "12px"); // Adjust font size
+
+            svg.append("g")
+                .attr("transform", `translate(${margin.left},0)`)
+                .call(d3.axisLeft(y));
+
+            // Add Y-axis label
+            svg.append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("x", -height / 2)
+                .attr("y", margin.left - 60)
+                .attr("text-anchor", "middle")
+                .style("font-size", "14px")
+                .text("Percentage of Individuals Using the Internet (%)");
+
+            // Add grouped bars
+            const groupedBars = svg.append("g")
+                .selectAll("g")
+                .data(groups)
+                .join("g")
+                .attr("transform", d => `translate(${x0(d)},0)`);
+
+            groupedBars.selectAll("rect")
+                .data(group => flatData.filter(d => d.Region === group))
+                .join("rect")
+                .attr("x", d => x1(d.Year))
+                .attr("y", d => y(d.Access))
+                .attr("width", x1.bandwidth())
+                .attr("height", d => height - margin.bottom - y(d.Access))
+                .attr("fill", d => color(d.Category))
+                .on("mouseover", (event, d) => {
+                    tooltip
+                        .style("opacity", 1)
+                        .html(`
+                            <strong>${d.Region}</strong><br>
+                            Year: ${d.Year}<br>
+                            Access (${d.Category}): ${d.Access}%
+                        `)
+                        .style("left", `${event.pageX + 5}px`)
+                        .style("top", `${event.pageY - 28}px`);
+                })
+                .on("mousemove",
+                (event) => {
+                    tooltip
+                        .style("left", `${event.pageX + 5}px`)
+                        .style("top", `${event.pageY - 28}px`);
+                })
+                .on("mouseout", () => {
+                    tooltip.style("opacity", 0);
+                });
+
+            // Add legend
+            svg.append("g")
+                .attr("transform", `translate(${width - 200},${margin.top})`)
+                .selectAll("rect")
+                .data(categories)
+                .join("rect")
+                .attr("x", 0)
+                .attr("y", (d, i) => i * 20)
+                .attr("width", 15)
+                .attr("height", 15)
+                .attr("fill", color);
+
+            svg.append("g")
+                .attr("transform", `translate(${width - 180},${margin.top})`)
+                .selectAll("text")
+                .data(categories)
+                .join("text")
+                .attr("x", 20)
+                .attr("y", (d, i) => i * 20 + 12)
+                .text(d => d)
+                .style("font-size", "12px")
+                .style("text-anchor", "start");
+        }).catch(error => console.error("Error loading or processing data:", error));
+    </script>
+</body>
+</html>
