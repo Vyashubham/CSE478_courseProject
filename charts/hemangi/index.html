@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Choropleth Map - Literacy Rates</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://unpkg.com/topojson-client@3"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            position: relative; /* For tooltip positioning */
+        }
+        h1 {
+            text-align: center;
+        }
+        #choropleth-map {
+            margin: 0 auto;
+            text-align: center;
+        }
+        /* Removed the svg width and height to prevent overriding */
+    </style>
+</head>
+<body>
+    <h1>Global Literacy Rates</h1>
+    <div id="choropleth-map"></div>
+    <script src="choroplethMap.js"></script>
+</body>
+</html>
