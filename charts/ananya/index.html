@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gender Gap in Education</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    .line {
+      fill: none;
+      stroke-width: 2px;
+      transition: opacity 0.2s, stroke-width 0.2s;
+    }
+    .line.hidden {
+      opacity: 0;
+    }
+    .line:hover {
+      stroke-width: 4px;
+    }
+    .axis-label {
+      font-size: 12px;
+      font-family: Arial, sans-serif;
+    }
+    .tooltip {
+      position: absolute;
+      background: #fff;
+      border: 1px solid #ddd;
+      padding: 8px;
+      border-radius: 4px;
+      pointer-events: none;
+      font-size: 12px;
+      font-family: Arial, sans-serif;
+      box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+      display: none;
+    }
+    .legend {
+      font-size: 12px;
+      font-family: Arial, sans-serif;
+    }
+    .legend rect {
+      cursor: pointer;
+    }
+    .legend rect:hover {
+      opacity: 0.8;
+    }
+    body {
+      font-family: Arial, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <h1>Gender Gap in Education (2000–2023)</h1>
+  <svg id="chart" width="900" height="600"></svg>
+  <div class="tooltip"></div>
+
+  <script>
+    const margin = { top: 40, right: 200, bottom: 50, left: 50 };
+    const width = 900 - margin.left - margin.right;
+    const height = 600 - margin.top - margin.bottom;
+
+    const svg = d3.select("#chart")
+      .append("g")
+      .attr("transform", `translate(${margin.left},${margin.top})`);
+
+    const tooltip = d3.select(".tooltip");
+
+    d3.csv("../../data/gender-gap-education-levels.csv").then(data => {
+      // Filter data for years 2000–2023
+      data = data.filter(d => +d.Year >= 2000 && +d.Year <= 2023);
+
+      // Parse and clean the data
+      data.forEach(d => {
+        d.Year = +d.Year;
+        d["Combined total net enrolment rate, primary, female"] = parseFloat(d["Combined total net enrolment rate, primary, female"]) || null;
+        d["Combined total net enrolment rate, primary, male"] = parseFloat(d["Combined total net enrolment rate, primary, male"]) || null;
+        d["Total net enrolment rate, lower secondary, female (%)"] = parseFloat(d["Total net enrolment rate, lower secondary, female (%)"]) || null;
+        d["Total net enrolment rate, lower secondary, male (%)"] = parseFloat(d["Total net enrolment rate, lower secondary, male (%)"]) || null;
+        d["Total net enrolment rate, upper secondary, female (%)"] = parseFloat(d["Total net enrolment rate, upper secondary, female (%)"]) || null;
+        d["Total net enrolment rate, upper secondary, male (%)"] = parseFloat(d["Total net enrolment rate, upper secondary, male (%)"]) || null;
+        d["Combined gross enrolment ratio for tertiary education, female"] = parseFloat(d["Combined gross enrolment ratio for tertiary education, female"]) || null;
+        d["Combined gross enrolment ratio for tertiary education, male"] = parseFloat(d["Combined gross enrolment ratio for tertiary education, male"]) || null;
+      });
+
+      // Define scales
+      const xScale = d3.scaleLinear()
+        .domain(d3.extent(data, d => d.Year))
+        .range([0, width]);
+
+      const yScale = d3.scaleLinear()
+        .domain([0, 100])
+        .range([height, 0]);
+
+      const colorScale = d3.scaleOrdinal()
+        .domain(["Girls in Primary", "Boys in Primary", "Girls in Lower Secondary", "Boys in Lower Secondary", "Girls in Upper Secondary", "Boys in Upper Secondary", "Girls in Tertiary", "Boys in Tertiary"])
+        .range(["orange", "blue", "pink", "green", "purple", "brown", "red", "teal"]);
+
+      const lines = [
+        { key: "Combined total net enrolment rate, primary, female", name: "Girls in Primary" },
+        { key: "Combined total net enrolment rate, primary, male", name: "Boys in Primary" },
+        { key: "Total net enrolment rate, lower secondary, female (%)", name: "Girls in Lower Secondary" },
+        { key: "Total net enrolment rate, lower secondary, male (%)", name: "Boys in Lower Secondary" },
+        { key: "Total net enrolment rate, upper secondary, female (%)", name: "Girls in Upper Secondary" },
+        { key: "Total net enrolment rate, upper secondary, male (%)", name: "Boys in Upper Secondary" },
+        { key: "Combined gross enrolment ratio for tertiary education, female", name: "Girls in Tertiary" },
+        { key: "Combined gross enrolment ratio for tertiary education, male", name: "Boys in Tertiary" }
+      ];
+
+      svg.append("g")
+        .attr("transform", `translate(0, ${height})`)
+        .call(d3.axisBottom(xScale).tickFormat(d3.format("d")))
+        .attr("class", "axis-label");
+
+      svg.append("g")
+        .call(d3.axisLeft(yScale))
+        .attr("class", "axis-label");
+
+      lines.forEach(line => {
+        const validData = data.filter(d => d[line.key] !== null); // Filter out invalid points
+        const path = svg.append("path")
+          .datum(validData)
+          .attr("d", d3.line()
+            .x(d => xScale(d.Year))
+            .y(d => yScale(d[line.key]))
+          )
+          .attr("class", "line")
+          .attr("stroke", colorScale(line.name))
+          .on("mousemove", function (event) {
+            const [x, y] = d3.pointer(event);
+            const year = Math.round(xScale.invert(x));
+            const rate = Math.round(yScale.invert(y));
+            tooltip
+              .style("display", "block")
+              .style("top", `${event.pageY + 10}px`)
+              .style("left", `${event.pageX + 10}px`)
+              .html(`<strong>${line.name}</strong><br>Year: ${year}<br>Rate: ${rate}%`);
+          })
+          .on("mouseout", function () {
+            tooltip.style("display", "none");
+          });
+      });
+
+      // Add legend
+      const legend = svg.selectAll(".legend")
+        .data(lines)
+        .enter()
+        .append("g")
+        .attr("class", "legend")
+        .attr("transform", (d, i) => `translate(${width + 20}, ${i * 20})`)
+        .on("click", function (event, d) {
+          const line = svg.selectAll(".line")
+            .filter(l => l.name === d.name);
+          if (!line.empty()) {
+            const isHidden = line.classed("hidden");
+            line.classed("hidden", !isHidden);
+          }
+        });
+
+      legend.append("rect")
+        .attr("x", 0)
+        .attr("y", -10)
+        .attr("width", 12)
+        .attr("height", 12)
+        .attr("fill", d => colorScale(d.name));
+
+      legend.append("text")
+        .attr("x", 20)
+        .attr("y", 0)
+        .text(d => d.name);
+    }).catch(err => {
+      console.error("Error loading or processing data: ", err);
+    });
+  </script>
+</body>
+</html>
