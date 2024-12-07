@@ -107,14 +107,21 @@ main {
 
 /* Vis Styling */
 .vis {
-  width: 65%; /* Remaining 65% for visualizations */
-  height: 100%; /* Visualizations fill section height */
-  background-color: #eaeaea; /* Light grey background for visualizations */
+  width: 65%; /* or a percentage that fits your layout */
+  height: 100%; /* Keep height relative */
+  background-color: #eaeaea;
   display: flex;
   align-items: center;
-  justify-content: center; /* Center content inside the visualization */
-  border: 1px solid #ccc; /* Optional: border for visualization area */
+  justify-content: center;
+  border: 1px solid #ccc;
+  overflow: hidden; /* Prevent overflow */
 }
+
+.vis svg {
+  width: 100%; /* Ensure SVG scales to fit */
+  height: 100%; /* Maintain container height */
+}
+
 
 
 /* Animation keyframes */
@@ -215,4 +222,31 @@ footer {
   position: relative; /* Can be set to fixed if required */
   bottom: 0;
   width: 100%;
+}
+
+#scatterplot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.controls {
+  margin-bottom: 20px;
+}
+
+.tooltip {
+  position: absolute;
+  visibility: hidden;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  pointer-events: none;
+  font-size: 12px;
+}
+
+.text > p{
+  font-size: 1rem !important;
+  font-weight: 500;
 }

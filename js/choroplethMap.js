@@ -31,7 +31,7 @@ function createColorScale(domain, scheme) {
 // Module: Legend
 function createLegend(svg, colorScale, title) {
     const legend = svg.append("g")
-        .attr("transform", `translate(${uniqueWidth - 300}, 50)`);
+        .attr("transform", `translate(${uniqueWidth - 500}, 50)`);
 
     // Legend background
     legend.append("rect")

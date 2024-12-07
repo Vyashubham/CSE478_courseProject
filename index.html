@@ -1,57 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./css/styles.css">  
+  <link rel="stylesheet" href="./css/styles.css">
   <script src="./js/scripts.js"></script>
   <script src="https://d3js.org/d3.v6.min.js"></script>
-    <script src="https://unpkg.com/topojson-client@3"></script>
+  <script src="https://unpkg.com/topojson-client@3"></script>
   <script src="https://d3js.org/d3.v6.min.js"></script>
-<script src="https://unpkg.com/topojson-client@3"></script>
-<script src="./js/scripts.js"></script>
-<script src="./js/choroplethMap.js"></script>
+  
+  <script src="https://unpkg.com/topojson-client@3"></script>
+  <script src="./js/scripts.js"></script>
+  <script src="./js/choroplethMap.js"></script>
+  <script src="./js/scatterplot.js"></script>
+  <script src="./js/linechart.js"></script>
   <title>Document</title>
 </head>
+
 <body>
   <header>
     <h1 class="heading">Breaking Barriers: Visualizing Global Inequality in Education</h1>
-    <h4>An interactive exploration of how economic, geographic, and gender disparities impact access to education worldwide.</h4>
+    <h4>An interactive exploration of how economic, geographic, and gender disparities impact access to education
+      worldwide.</h4>
     <div class="team">
       Shubham Vyas, Hemangi Mahant, Lakshita Manha, Tushmi Sharma, Ananya Yadav<br>
       <a href="#main" class="btn">Know the story</a>
     </div>
-    
+
   </header>
   <div class="intro" id="main">
-    <h2 >Project Brief</h2>
-    <p>Education is a cornerstone of societal progress, yet access to quality education remains uneven across the globe, often reflecting deep-seated economic, geographic, and gender-based inequalities. Our project, "Inequality in Global Access to Education," seeks to uncover and visualize these disparities by leveraging comprehensive datasets and advanced visualization techniques. By focusing on key metrics such as literacy rates, enrollment levels, gender disparities, and digital access, we aim to shed light on the multifaceted barriers that hinder learning opportunities worldwide. Using interactive visualizations, including a novel Sankey diagram to track educational pathways, our project not only highlights the current state of global education but also provides a foundation for policymakers and stakeholders to identify actionable solutions.</p>
+    <h2>Project Brief</h2>
+    <p>Education is a cornerstone of societal progress, yet access to quality education remains uneven across the globe,
+      often reflecting deep-seated economic, geographic, and gender-based inequalities. Our project, "Inequality in
+      Global Access to Education," seeks to uncover and visualize these disparities by leveraging comprehensive datasets
+      and advanced visualization techniques. By focusing on key metrics such as literacy rates, enrollment levels,
+      gender disparities, and digital access, we aim to shed light on the multifaceted barriers that hinder learning
+      opportunities worldwide. Using interactive visualizations, including a novel Sankey diagram to track educational
+      pathways, our project not only highlights the current state of global education but also provides a foundation for
+      policymakers and stakeholders to identify actionable solutions.</p>
   </div>
   <main>
     <section class="visual_section">
-      <div class="text">Global Disparities in Education Access: A Choropleth Visualization</div>
+      <div class="text">Global Disparities in Education Access: A Choropleth Visualization
+        <p>A choropleth map vividly highlights the stark disparities in global education access, exposing regions where
+          opportunities remain scarce. By visualizing data geographically, this tool reveals the correlation between
+          socio-economic status, geography, and education inequality. It serves as a powerful reminder of the need for
+          targeted interventions in underserved areas. Such visualizations empower policymakers, educators, and
+          advocates to address systemic barriers and foster global progress. Bridging these gaps is crucial for
+          achieving universal education goals.</p>
+      </div>
       <div class="vis">
         <div id="choropleth-map"></div>
-    <script src="./js/choroplethMap.js"></script>
+        <script src="./js/choroplethMap.js"></script>
       </div>
     </section>
     <section class="visual_section">
-      <div class="text">Education gender gap. How will it shape our future?</div>
-      <div class="vis"></div>
-    </section>
-    <section class="visual_section">
-      <div class="text">Education gender gap. How will it shape our future?</div>
-      <div class="vis"></div>
+      <div class="text">Education gender gap. How will it shape our future?
+        <p>The education gender gap continues to influence the global landscape, affecting economic growth, innovation,
+          and social equity. When girls and women lack access to education, societies lose potential leaders, skilled
+          workers, and agents of change. Bridging this gap could lead to a more inclusive future, fostering equality and
+          improving livelihoods. Investments in gender-equal education are essential to create sustainable solutions for
+          the world's challenges. As we close the gap, a brighter, more balanced global future becomes possible.</p>
+      </div>
+      <div class="vis">
+        <div id="scatterplot">
+          <!-- <h2>Scatterplot: Education Spending per Capita vs. Literacy Rate</h2> -->
+
+          <!-- Controls for interactivity -->
+          <div class="controls">
+            <label for="scaleType">X-axis Scale Type:</label>
+            <select id="scaleType">
+              <option value="linear" selected>Linear</option>
+              <option value="log">Logarithmic</option>
+            </select>
+
+            <label for="xMax">Adjust X Max Domain:</label>
+            <input type="range" id="xMax" min="50" max="200" value="100" step="10">
+            <span id="xMaxValue">100</span>%
+          </div>
+        </div>
+
+      </div>
     </section>
   </main>
   <div class="conclusion">
     <h2>Conclusion</h2>
-    <p>Our project on "Inequality in Global Access to Education" provides a detailed exploration of the diverse factors that shape educational opportunities across the world. Through dynamic visualizations such as the choropleth map, scatterplot, grouped bar chart, and line chart, we have highlighted critical trends and disparities in literacy, enrollment, and access to online learning. The centerpiece of our work, the interactive Sankey diagram, offers a unique perspective on students' educational journeys, revealing how economic and social factors influence dropout rates and transitions to higher education. As we finalize the remaining elements, we envision this project as a comprehensive tool that not only raises awareness about educational inequalities but also empowers decision-makers to develop data-driven policies for a more equitable future in education.</p>
+    <p>Our project on "Inequality in Global Access to Education" provides a detailed exploration of the diverse factors
+      that shape educational opportunities across the world. Through dynamic visualizations such as the choropleth map,
+      scatterplot, grouped bar chart, and line chart, we have highlighted critical trends and disparities in literacy,
+      enrollment, and access to online learning. The centerpiece of our work, the interactive Sankey diagram, offers a
+      unique perspective on students' educational journeys, revealing how economic and social factors influence dropout
+      rates and transitions to higher education. As we finalize the remaining elements, we envision this project as a
+      comprehensive tool that not only raises awareness about educational inequalities but also empowers decision-makers
+      to develop data-driven policies for a more equitable future in education.</p>
   </div>
   <footer>
     <p>Final Project CSE 478</p>
     <p>Shubham, Lakshita, Hemangi, Tushmi, Ananya</p>
   </footer>
-  
+
 </body>
+
 </html>
