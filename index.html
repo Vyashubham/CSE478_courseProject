@@ -1,66 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Education Inequality Visualizations</title>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="https://unpkg.com/topojson@3"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 0;
-            padding: 0;
-        }
-
-        h1 {
-            color: #333;
-            margin-top: 20px;
-            font-size: 2em;
-        }
-
-        h2 {
-            color: #444;
-            margin-top: 30px;
-        }
-
-        #choropleth-map, #scatterplot, #grouped-bar-chart {
-            margin: 20px;
-            padding: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
-        }
-
-        svg {
-            background-color: #f0f0f0;
-        }
-
-        .legend rect {
-            width: 18px;
-            height: 18px;
-        }
-
-        .legend text {
-            font-size: 0.9em;
-            text-anchor: start;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/styles.css">  
+  <script src="./js/scripts.js"></script>
+  <title>Document</title>
 </head>
 <body>
-    <h1>Education Inequality Visualizations</h1>
+  <header>
+    <h1 class="heading">Breaking Barriers: Visualizing Global Inequality in Education</h1>
+    <h4>An interactive exploration of how economic, geographic, and gender disparities impact access to education worldwide.</h4>
+    <div class="team">
+      Shubham Vyas, Hemangi Mahant, Lakshita Manha, Tushmi Sharma, Ananya Yadav<br>
+      <a href="#main" class="btn">Know the story</a>
+    </div>
     
-    <h2>Choropleth Map: Global Literacy Rates</h2>
-    <div id="choropleth-map"></div>
-
-    <h2>Scatterplot: Education Spending vs. Literacy Rates</h2>
-    <div id="scatterplot"></div>
-
-    <h2>Grouped Bar Chart: Gender-Based Enrollment Rates</h2>
-    <div id="grouped-bar-chart"></div>
-
-    <script src="visualizations.js"></script>
+  </header>
+  <div class="intro" id="main">
+    <h2 >Project Brief</h2>
+    <p>Education is a cornerstone of societal progress, yet access to quality education remains uneven across the globe, often reflecting deep-seated economic, geographic, and gender-based inequalities. Our project, "Inequality in Global Access to Education," seeks to uncover and visualize these disparities by leveraging comprehensive datasets and advanced visualization techniques. By focusing on key metrics such as literacy rates, enrollment levels, gender disparities, and digital access, we aim to shed light on the multifaceted barriers that hinder learning opportunities worldwide. Using interactive visualizations, including a novel Sankey diagram to track educational pathways, our project not only highlights the current state of global education but also provides a foundation for policymakers and stakeholders to identify actionable solutions.</p>
+  </div>
+  <main>
+    <section class="visual_section">
+      <div class="text">Education gender gap. How will it shape our future?</div>
+      <div class="vis"></div>
+    </section>
+    <section class="visual_section">
+      <div class="text">Education gender gap. How will it shape our future?</div>
+      <div class="vis"></div>
+    </section>
+    <section class="visual_section">
+      <div class="text">Education gender gap. How will it shape our future?</div>
+      <div class="vis"></div>
+    </section>
+  </main>
+  <div class="conclusion">
+    <h2>Conclusion</h2>
+    <p>Our project on "Inequality in Global Access to Education" provides a detailed exploration of the diverse factors that shape educational opportunities across the world. Through dynamic visualizations such as the choropleth map, scatterplot, grouped bar chart, and line chart, we have highlighted critical trends and disparities in literacy, enrollment, and access to online learning. The centerpiece of our work, the interactive Sankey diagram, offers a unique perspective on students' educational journeys, revealing how economic and social factors influence dropout rates and transitions to higher education. As we finalize the remaining elements, we envision this project as a comprehensive tool that not only raises awareness about educational inequalities but also empowers decision-makers to develop data-driven policies for a more equitable future in education.</p>
+  </div>
+  <footer>
+    <p>Final Project CSE 478</p>
+    <p>Shubham, Lakshita, Hemangi, Tushmi, Ananya</p>
+  </footer>
+  
 </body>
 </html>
